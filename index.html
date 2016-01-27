@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<meta charset="UTF-8"> 
+
+<html>
+    <head>
+        <title>ORANGE SHOOTER</title>
+        <!--Center game on screen-->
+        <style>
+            @font-face {
+                font-family: origa;
+                src: url(unispacerg.ttf);
+            }
+
+            #game {
+                position: absolute;
+                left: 50%;
+                margin-left: -240px;
+            }
+        </style>
+    </head> 
+    <body>
+        <!--Create game container-->        
+        <div id="game"></div>
+
+        <!--Require Crafty-->
+        <script type="text/javascript" src="crafty.js"></script>
+
+        <!--Load game scripts-->
+        <script type="text/javascript" src="src/constants.js"></script>
+
+        <script type="text/javascript" src="src/GameManager.js"></script>
+        <script type="text/javascript" src="src/Bullet.js"></script>
+        <script type="text/javascript" src="src/Enemy.js"></script>
+        <script type="text/javascript" src="src/Player.js"></script>
+        <script type="text/javascript" src="src/SuperShield.js"></script>
+        <script type="text/javascript" src="src/HUD.js"></script>
+
+        <script type="text/javascript" src="src/generalFunctions.js"></script>
+        <script type="text/javascript" src="src/menuElements.js"></script>
+        <script type="text/javascript" src="src/visualEffects.js"></script>
+        <script type="text/javascript" src="src/commonMenuFunctions.js"></script>
+
+        <script type="text/javascript" src="src/mainMenuScene.js"></script>
+        <script type="text/javascript" src="src/gameScene.js"></script>
+        <script type="text/javascript" src="src/gameOverScene.js"></script>
+
+        <script type="text/javascript" src="src/init.js"></script>
+
+     </body>
+</html>
