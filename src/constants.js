@@ -6,7 +6,7 @@ var EDGE_TOP = 32;
 var EDGE_BOTTOM = HEIGHT - 40;
 
 var FONT_SIZE = "20px";
-var FONT_FAMILY = "Lucida Console";
+var FONT_FAMILY = "Courier New";
 
 //-------------------------------------------------------------------------------
 // MENU CONSTANTS
