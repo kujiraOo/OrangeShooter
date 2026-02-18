@@ -2,20 +2,20 @@
 // MAIN MENU SCENE
 //-------------------------------------------------------------------------------
 
-var MENU_BUTTONS_Y_OFFSET = 70;
-var MENU_BTN1_Y = 0.25 * MENU_WINDOW_HEIGHT + MENU_BUTTONS_Y_OFFSET;
-var MENU_BTN2_Y = 0.5 * MENU_WINDOW_HEIGHT + MENU_BUTTONS_Y_OFFSET;
-var MENU_BTN3_Y = 0.75 * MENU_WINDOW_HEIGHT + MENU_BUTTONS_Y_OFFSET;
+var MENU_BUTTONS_Y_OFFSET = 100;
+var MENU_BTN1_Y = 0.2 * MENU_WINDOW_HEIGHT + MENU_BUTTONS_Y_OFFSET;
+var MENU_BTN2_Y = 0.35 * MENU_WINDOW_HEIGHT + MENU_BUTTONS_Y_OFFSET;
+var MENU_BTN3_Y = 0.5 * MENU_WINDOW_HEIGHT + MENU_BUTTONS_Y_OFFSET;
+var MENU_BTN4_Y = 0.65 * MENU_WINDOW_HEIGHT + MENU_BUTTONS_Y_OFFSET;
 
 //-------------------------------------------------------------------------------
 function initMainMenuScene () 
 {
 	var menuStruct = {} // holds structure of the menu
 
-	Crafty.audio.play("intro", -1); // Play BGM
-
-	newMuteEntity(); // init Mute enitity to toggle sound
-	newMuteHint(EDGE_BOTTOM); // show hint on the bottom of the screen how to toggle sound
+  if (!Crafty.audio.muted) {
+    Crafty.audio.play("intro", -1);
+  }
 
 	menuStruct.highScoreWindow = newHighScoreWindow(); // displays high scores
 	menuStruct.helpWindow = newHelpWindow(); // display information about controls and abilities
@@ -118,12 +118,6 @@ function newHelpButton(menuStruct)
 	return button;
 }
 
-//-------------------------------------------------------------------------------
-// main menu window with 3 buttons
-// start 
-// high scores 
-// help
-//-------------------------------------------------------------------------------
 function newMainMenuWindow(menuStruct)
 {
 	var window = Crafty.e("MenuWindow")
@@ -132,15 +126,38 @@ function newMainMenuWindow(menuStruct)
 	menuStruct.startButton = newStartButton();
 	menuStruct.highScoreButton = newHighScoreButton(menuStruct);
 	menuStruct.helpButton = newHelpButton(menuStruct);
+  const toggleSoundButton = newToggleSoundButton();
 
 	window.attach(menuStruct.startButton);
 	window.attach(menuStruct.highScoreButton);
 	window.attach(menuStruct.helpButton);
+  window.attach(toggleSoundButton);
 
 	return window;
 }
 
+function newToggleSoundButton()
+{
+	var button = Crafty.e("LabelButton")
+		.label("toggle sound")
+		.bind("Click", function () 
+		{
+		  if (Crafty.audio.muted) {
+        Crafty.audio.unmute();
 
+        if (!Crafty.audio.isPlaying("intro")) {
+          Crafty.audio.play("intro", -1);
+        }
+      } else {
+        Crafty.audio.mute();
+      }
+		});
+
+	button.x = 0.5 * (WIDTH - button.w);
+	button.y = MENU_BTN4_Y;
+
+	return button;
+}
 
 //-------------------------------------------------------------------------------
 // displays 10 high scores from Crafty.storage
@@ -235,26 +252,3 @@ function newHelpWindow()
 
 	return window;
 }
-
-//-------------------------------------------------------------------------------
-// Assign mute function to M key, so player can mut all sounds in the game
-// or turn the sound on back
-//-------------------------------------------------------------------------------
-function newMuteEntity()
-{
-	Crafty.e("Keyboard")
-		.bind("KeyDown", function()
-			{
-				if (this.isDown('M')) 
-				{
-					Crafty.audio.toggleMute(); // mute all sounds
-					Crafty.storage("mute", Crafty.audio.muted); // save changed mute state to storage
-				}
-			});
-}
-
-
-
-
-
-

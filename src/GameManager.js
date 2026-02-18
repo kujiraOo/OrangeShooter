@@ -39,8 +39,10 @@ Crafty.c("GameManager",
 		this.delay(this._increaseSpeed, this.SPEED_TIMER_DELAY, -1); 
 		this.delay(this._spawnEnemy, this._enemySpawnDelay, -1); // init spawn timer
 
-		this._muteHint = newMuteHint(0.5 * HEIGHT);
-		this._muteHint.visible = false;
+		this._pauseHint = this._createPauseHint();
+		this._pauseHint.visible = false;
+    this._toggleSoundButton = this._createToggleSoundButton();
+    this._toggleSoundButton.show(false);
 
 		// bgm timer
 		this.delay(this._checkBgm, this.BGM_DELAY, -1);
@@ -55,7 +57,8 @@ Crafty.c("GameManager",
 			if (!Crafty.isPaused())
 			{
 				// show mute hint
-				this._muteHint.visible = true;
+				this._pauseHint.visible = true;
+        this._toggleSoundButton.show(true);
 
 				// use delay so some frames will be drawn before crafty is paused
 				//and the hint will appear on the screen
@@ -64,12 +67,37 @@ Crafty.c("GameManager",
 			}
 			else
 			{
-				// hide mute hint
-				this._muteHint.visible = false;
+				this._pauseHint.visible = false;
+        this._toggleSoundButton.show(false);
 				Crafty.pause();
 			}
 		}
 	},
+
+  _createPauseHint: function () {
+    var hint = Crafty.e("2D, Canvas, Text")
+      .text("press ESC to resume")
+      .textFont({ family: FONT_FAMILY, size: MENU_WINDOW_LABEL_FONT_SIZE })
+      .textColor(ENEMY_COLOR_STR);
+
+    hint.x = 0.5 * (WIDTH - hint.w);
+    hint.y = 0.5 * HEIGHT;
+
+    return hint;
+  },
+
+  _createToggleSoundButton: function () {
+    var button = Crafty.e("LabelButton")
+      .label("toggle sound")
+      .bind("Click", function () {
+        Crafty.audio.toggleMute();
+      });
+
+    button.x = 0.5 * (WIDTH - button.w);
+    button.y = 0.5 * HEIGHT + 50;
+
+    return button;
+  },
 
 	_spawnEnemy: function()
 	{
@@ -88,15 +116,6 @@ Crafty.c("GameManager",
 			Crafty.e("SpreadShooter").SpreadShooter(x, y, this._speedMult);
 		else
 			Crafty.e("ArcShooter").ArcShooter(x, y, this._speedMult);
-
-		// debug info
-		// console.log("enemies: " + Crafty("Enemy").get().length);
-		// console.log("enemy bullets " + Crafty("EnemyBullet").get().length);
-		// console.log("player bullets " + Crafty("PlayerBullet").get().length);
-		// console.log("particle systems: " + Crafty("Particles").get().length);
-		// console.log("images: " + Crafty("Image").get().length);
-
-		console.log("bgm is playing: " + Crafty.audio.isPlaying("game"));
 	},
 
 	_increaseSpeed: function () 
@@ -183,11 +202,6 @@ Crafty.c("GameManager",
 		this._updateSpawnDelay(spawnDelay);
 	},
 
-	toggleMuteHint: function()
-	{
-		this._muteHint.visible = !this._muteHint.visible;
-	},
-
 	updateScore: function(score)
 	{
 		this._score += score;
@@ -208,5 +222,4 @@ Crafty.c("GameManager",
 			Crafty.enterScene("GameOver", this._score);
 		}, 3000);
 	}
-
 });

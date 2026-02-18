@@ -86,6 +86,7 @@ function initGame()
 
 	loadSounds(); // load sound effects and music
 
+  Crafty.audio.mute();
 	Crafty.audio.setChannels(99); // make sure that all sounds are played
 
 	// Register game scenes, function definitions are in gameScene.js file

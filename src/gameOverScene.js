@@ -13,7 +13,6 @@ function initGameOverScene(score)
 {
 	Crafty.audio.play("gameover", -1); // game over bgm
 	checkScore(score);	// check if player score is new high score
-	newMuteHint(EDGE_BOTTOM); // show toggle sound hint on the bottom of the screen
 }
 
 //-------------------------------------------------------------------------------

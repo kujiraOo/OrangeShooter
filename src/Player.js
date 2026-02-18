@@ -117,7 +117,7 @@ Crafty.c("Player",
 			this._explosionEffect();
 
 			//sound effect
-			Crafty.audio.play("explosion");
+			Crafty.audio.play("explosion", 1, 0.5);
 
 			if (this._lives < 0)
 			{

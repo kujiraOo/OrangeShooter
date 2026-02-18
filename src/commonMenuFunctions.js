@@ -44,18 +44,3 @@ function displayHighScores(numScores, window)
 		scoreText.y = MENU_WINDOW_LABEL_Y + 2 * i * 15;
 	}
 }
-
-//-------------------------------------------------------------------------------
-function newMuteHint(y)
-{
-	// show hint on bottom of the screen
-	var soundHint = Crafty.e("2D, Canvas, Text")
-		.text("press M to toggle sound")
-		.textFont({family: FONT_FAMILY, size: MENU_WINDOW_LABEL_FONT_SIZE})
-		.textColor(ENEMY_COLOR_STR);
-
-	soundHint.x = 0.5 * (WIDTH - soundHint.w);
-	soundHint.y = y;
-
-	return soundHint;
-}
